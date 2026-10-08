@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Sem maximum-scale/user-scalable=no: o zoom precisa continuar disponível (WCAG 1.4.4). -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0c0c0e" />
+    <meta name="color-scheme" content="dark" />
+    <title>São Cristóvão Burger - Palhoça SC | Smash Burgers Artesanais</title>
+    <link rel="icon" type="image/webp" href="/src/assets/logo-192.webp" />
+    <link rel="apple-touch-icon" href="/src/assets/logo-192.webp" />
+    <meta name="description" content="Cardápio digital do São Cristóvão Burger em Palhoça - SC: smash burgers artesanais na chapa a 200°C, combos, delivery das 18:00 às 23:30, assistente IA e burger interativo em camadas." />
+    <meta property="og:title" content="São Cristóvão Burger - Palhoça SC" />
+    <meta property="og:description" content="Smash burgers artesanais com crosta de Maillard, combos e delivery em Palhoça - SC. Todos os dias das 18:00 às 23:30." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="São Cristóvão Burger" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "São Cristóvão Burger",
+        "servesCuisine": ["Hambúrguer", "Smash Burger", "Lanches"],
+        "priceRange": "R$ 28 - R$ 140",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Palhoça",
+          "addressRegion": "SC",
+          "addressCountry": "BR"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "18:00",
+            "closes": "23:30"
+          }
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.7",
+          "reviewCount": "1200"
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-[#0c0c0e] text-[#f4f4f5] antialiased selection:bg-amber-400 selection:text-black">
+    <noscript>
+      <p style="padding:24px;font-family:sans-serif;color:#f4f4f5">
+        Ative o JavaScript para ver o cardápio do São Cristóvão Burger. Funcionamos todos os dias das 18:00 às 23:30 em Palhoça - SC.
+      </p>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

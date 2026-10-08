@@ -1,0 +1,6 @@
+{
+  "name": "São Cristóvão Burger - Palhoça SC",
+  "description": "Cardápio digital gourmet, experiência 3D interativa de smash burgers, assistente IA e gerador visual de burgers para o São Cristóvão Burger em Palhoça - SC.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

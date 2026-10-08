@@ -1,0 +1,126 @@
+import React, { memo } from 'react';
+import { Sparkles, Flame, Layers } from 'lucide-react';
+import { MenuItem } from '../types/burger';
+import { SaoCristovaoLogo } from './SaoCristovaoLogo';
+import { STORE_CLOSES_AT, STORE_OPENS_AT } from '../../shared/storeHours';
+
+interface HeroSectionProps {
+  onOrderBurger: (item: MenuItem) => void;
+  isOpenStore: boolean;
+}
+
+const SIGNATURE_BURGER: MenuItem = {
+  id: 'destaque-1',
+  name: 'Burger 120g Bacon & Cheddar Cristovão Bacon',
+  category: 'Destaques',
+  description:
+    'Pão brioche selado na manteiga, hambúrguer 120g com crosta smash, bacon crocante, cheddar derretido, alface americana fresca, tomate e maionese da casa.',
+  price: 48.9,
+  originalPrice: 59.9,
+  image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=800&q=80',
+  serves: 'Serve 1 pessoa',
+};
+
+export const HeroSection: React.FC<HeroSectionProps> = memo(function HeroSection({ onOrderBurger, isOpenStore }) {
+  return (
+    <section
+      id="inicio"
+      aria-labelledby="hero-title"
+      className="min-h-[100svh] flex items-center relative pt-24 pb-16 z-20"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="lg:col-span-6 flex flex-col space-y-7 text-left">
+          <div className="flex items-center gap-3.5">
+            <SaoCristovaoLogo size={64} className="shadow-[0_0_25px_rgba(251,191,36,0.5)]" />
+            <div className="flex flex-col">
+              <span className="font-extrabold text-white text-base tracking-tight uppercase font-display">
+                São Cristóvão Hamburgueria
+              </span>
+              <div className="inline-flex items-center gap-2 text-xs text-amber-400 font-semibold">
+                <span className="relative flex w-2 h-2" aria-hidden="true">
+                  {isOpenStore && (
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
+                  )}
+                  <span
+                    className={`relative inline-flex w-2 h-2 rounded-full ${isOpenStore ? 'bg-green-400' : 'bg-amber-400'}`}
+                  />
+                </span>
+                <span>
+                  Palhoça - SC •{' '}
+                  {isOpenStore ? (
+                    <span className="text-green-400">Aberto agora até {STORE_CLOSES_AT}</span>
+                  ) : (
+                    `Abre às ${STORE_OPENS_AT}`
+                  )}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <h1
+            id="hero-title"
+            className="text-[2.75rem] leading-[0.95] min-[400px]:text-5xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-white sm:leading-[0.93] font-display"
+          >
+            A ARTE DO <br />
+            <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-red-500 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(251,191,36,0.35)]">
+              SMASH REAL.
+            </span>
+          </h1>
+
+          <p className="text-zinc-200 text-base sm:text-lg font-light leading-relaxed max-w-xl">
+            Blend 100% fresco prensado a 200°C com a autêntica crosta de Maillard, dobro de cheddar derretido no abafador
+            e pão brioche amanteigado. Sinta a diferença em cada mordida.
+          </p>
+
+          <ul className="flex flex-wrap items-center gap-3 text-xs" aria-label="Destaques da loja">
+            <li className="px-3.5 py-2 rounded-xl bg-black/70 border border-white/10 flex items-center gap-2 text-zinc-200">
+              <span className="text-amber-400 font-bold">★ 4.7</span>
+              <span>(1.200+ avaliações)</span>
+            </li>
+            <li className="px-3.5 py-2 rounded-xl bg-black/70 border border-white/10 flex items-center gap-2 text-zinc-200">
+              <Flame className="w-4 h-4 text-red-500" aria-hidden="true" />
+              <span>Pedido mínimo R$ 29,90</span>
+            </li>
+            <li className="px-3.5 py-2 rounded-xl bg-black/70 border border-white/10 flex items-center gap-2 text-zinc-200">
+              <span className="text-green-400 font-bold">Frete Grátis</span>
+              <span>acima de R$ 75</span>
+            </li>
+          </ul>
+
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
+            <button
+              type="button"
+              onClick={() => onOrderBurger(SIGNATURE_BURGER)}
+              className="px-6 sm:px-8 py-4 rounded-full font-black text-sm uppercase tracking-wider bg-amber-400 hover:bg-amber-300 text-black transition-[background-color,transform] duration-300 shadow-[0_0_25px_rgba(251,191,36,0.4)] hover:scale-105 active:scale-95 flex items-center gap-2.5 cursor-pointer"
+            >
+              <Sparkles className="w-4 h-4 text-black" aria-hidden="true" />
+              <span>Pedir Cristóvão Bacon • R$ 48,90</span>
+            </button>
+
+            <a
+              href="#a-experiencia"
+              className="px-6 py-4 rounded-full font-bold text-xs uppercase tracking-wider text-white bg-white/5 border border-white/15 hover:bg-white/10 hover:border-amber-400/50 transition-colors flex items-center gap-2 cursor-pointer"
+            >
+              <Layers className="w-4 h-4 text-amber-400" aria-hidden="true" />
+              <span>Ver Burger se Destrinchando</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Coluna direita: espaço aberto onde o burger em camadas aparece (camada fixa ao fundo). */}
+        <div className="lg:col-span-6 flex flex-col items-center justify-end lg:justify-center relative min-h-[300px] lg:min-h-[420px] pointer-events-none">
+          <div className="p-4 rounded-2xl bg-black/60 border border-white/10 shadow-2xl max-w-xs text-center space-y-1.5 pointer-events-auto lg:translate-y-48">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-[10px] font-bold uppercase tracking-wider">
+              <Sparkles className="w-3 h-3 text-amber-400" aria-hidden="true" />
+              <span>Burger em Camadas Interativas</span>
+            </div>
+            <p className="text-[11px] text-zinc-300 leading-snug">
+              <span className="hidden pointer-fine:inline">Mova o cursor para inclinar o burger em 3D. </span>
+              Role a página para destrinchar as camadas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+});
