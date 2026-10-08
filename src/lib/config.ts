@@ -9,6 +9,11 @@ export const STORE_WHATSAPP_NUMBER = (import.meta.env.VITE_STORE_WHATSAPP_NUMBER
 export const buildWhatsAppLink = (message: string): string =>
   `https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-/** Vídeo opcional do Hero (caminho relativo ao site, ex.: "media/hero-burger.mp4"). */
-export const HERO_VIDEO_SRC = import.meta.env.VITE_HERO_VIDEO_SRC || '';
+/**
+ * Vídeo do Hero (caminho relativo ao site). Padrão: o vídeo gerado com
+ * Seedance 2.0 em public/media/hero-burger.mp4 (720p, 16:9, 5s, sem áudio).
+ * Defina VITE_HERO_VIDEO_SRC para trocar, ou "none" para desativar.
+ */
+const heroVideoEnv = import.meta.env.VITE_HERO_VIDEO_SRC || 'media/hero-burger.mp4';
+export const HERO_VIDEO_SRC = heroVideoEnv === 'none' ? '' : heroVideoEnv;
 export const HERO_VIDEO_POSTER = import.meta.env.VITE_HERO_VIDEO_POSTER || '';

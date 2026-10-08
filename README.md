@@ -120,8 +120,9 @@ WhatsApp (link `wa.me`), usando `VITE_STORE_WHATSAPP_NUMBER`.
 
 ### Vídeo do Hero
 
-Coloque o MP4 (720p, 16:9, sem áudio) em `public/media/hero-burger.mp4` e defina
-`VITE_HERO_VIDEO_SRC=media/hero-burger.mp4`. O vídeo usa `autoplay muted loop playsinline`, pausa fora da
+O vídeo do burger explodindo (gerado com Higgsfield Seedance 2.0 — 720p, 16:9, 5s, sem áudio) está em
+`public/media/hero-burger.mp4` e é usado por padrão. Para trocar, substitua o arquivo ou defina
+`VITE_HERO_VIDEO_SRC` (use `none` para desativar). O vídeo usa `autoplay muted loop playsinline`, pausa fora da
 tela e respeita `prefers-reduced-motion`. Com vídeo ativo, o burger animado aparece só após o Hero.
 
 ### Segurança
