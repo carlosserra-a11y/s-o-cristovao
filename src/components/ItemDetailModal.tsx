@@ -217,7 +217,7 @@ const ItemDetailModal: React.FC<ItemDetailModalProps> = ({ item, onClose, onAddT
             maxLength={MAX_OBSERVATION_LENGTH}
             onChange={(e) => setObservacao(e.target.value)}
             placeholder="Ex: carne bem passada, enviar sachê extra, etc."
-            className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-base sm:text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400"
+            className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-base sm:text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-amber-400"
           />
         </div>
       </div>

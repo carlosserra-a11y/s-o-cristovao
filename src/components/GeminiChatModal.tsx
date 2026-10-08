@@ -277,7 +277,7 @@ const GeminiChatModal: React.FC<GeminiChatModalProps> = ({ onClose, onQuickAddIt
                   <div className="whitespace-pre-wrap break-words">
                     {isUser ? msg.content : renderRichText(msg.content)}
                   </div>
-                  <div className={`text-[10px] mt-1 text-right ${isUser ? 'text-black/60' : 'text-zinc-500'}`}>
+                  <div className={`text-[10px] mt-1 text-right ${isUser ? 'text-black/60' : 'text-zinc-400'}`}>
                     {msg.timestamp}
                   </div>
                 </div>
@@ -382,7 +382,7 @@ const GeminiChatModal: React.FC<GeminiChatModalProps> = ({ onClose, onQuickAddIt
             enterKeyHint="send"
             onChange={(e) => setInputMessage(e.target.value)}
             placeholder="Digite sua dúvida, pedido ou ingrediente..."
-            className="flex-1 min-w-0 px-4 py-3 bg-zinc-900 border border-white/10 rounded-2xl text-base sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition-colors"
+            className="flex-1 min-w-0 px-4 py-3 bg-zinc-900 border border-white/10 rounded-2xl text-base sm:text-sm text-white placeholder-zinc-400 focus:outline-none focus:border-amber-400 transition-colors"
           />
           <button
             type="submit"

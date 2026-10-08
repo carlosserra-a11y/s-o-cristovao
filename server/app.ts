@@ -4,8 +4,10 @@ import { env } from './config/env.ts';
 import { apiLimiter } from './middleware/rateLimiter.ts';
 import { noStore, requestId, securityHeaders } from './middleware/security.ts';
 import { apiNotFound, errorHandler } from './middleware/errorHandler.ts';
+import { corsPolicy } from './middleware/cors.ts';
 import { aiRoutes } from './routes/aiRoutes.ts';
 import { storeRoutes } from './routes/storeRoutes.ts';
+import { orderRoutes } from './routes/orderRoutes.ts';
 
 export interface CreateAppOptions {
   /** Registra o frontend (Vite em dev / estáticos em prod) antes do errorHandler. */
@@ -28,8 +30,9 @@ export async function createApp({ registerFrontend }: CreateAppOptions = {}): Pr
   app.use(securityHeaders());
 
   const api = express.Router();
-  api.use(noStore, apiLimiter);
+  api.use(corsPolicy, noStore, apiLimiter);
   api.use('/store', storeRoutes);
+  api.use('/orders', orderRoutes);
   api.use(aiRoutes);
   api.use(apiNotFound);
   app.use('/api', api);

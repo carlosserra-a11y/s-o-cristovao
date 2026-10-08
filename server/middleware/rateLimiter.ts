@@ -33,6 +33,13 @@ export const chatLimiter = createLimiter(
   'Você enviou muitas mensagens seguidas. Aguarde um minuto e tente novamente.'
 );
 
+/** Pedidos via WhatsApp: cada um gera mensagem paga na Twilio. */
+export const orderLimiter = createLimiter(
+  10 * 60_000,
+  env.rateLimit.ordersPer10Minutes,
+  'Você enviou muitos pedidos em pouco tempo. Aguarde alguns minutos ou fale conosco pelo WhatsApp.'
+);
+
 export const imageLimiter = createLimiter(
   10 * 60_000,
   env.rateLimit.imagePer10Minutes,

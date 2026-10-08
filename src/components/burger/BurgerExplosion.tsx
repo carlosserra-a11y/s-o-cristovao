@@ -79,11 +79,14 @@ export interface BurgerExplosionProps {
   reduceMotion?: boolean;
   /** id da seção do cardápio — usada para esmaecer o burger atrás dos cards. */
   menuSectionId?: string;
+  /** Quando o Hero exibe vídeo, o burger animado só aparece depois do Hero. */
+  hideInHero?: boolean;
 }
 
 const BurgerExplosion: React.FC<BurgerExplosionProps> = ({
   reduceMotion = false,
   menuSectionId = 'cardapio',
+  hideInHero = false,
 }) => {
   const stageRef = useRef<HTMLDivElement>(null);
   // A seção já está no DOM quando esta camada (lazy) monta.
@@ -118,7 +121,8 @@ const BurgerExplosion: React.FC<BurgerExplosionProps> = ({
     [centerT, menuEnter, breakpoint],
     ([t, m, bp]: number[]) => {
       const o = OPACITY_BY_BREAKPOINT[bp] ?? OPACITY_BY_BREAKPOINT[2];
-      return lerp(lerp(o.hero, o.mid, t), o.menu, clamp01(m));
+      const heroOpacity = hideInHero ? 0 : o.hero;
+      return lerp(lerp(heroOpacity, o.mid, t), o.menu, clamp01(m));
     }
   );
   const stageScale = useTransform(explode, (e) => 1 + e * 0.04);

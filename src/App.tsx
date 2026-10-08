@@ -14,6 +14,7 @@ import { useCart } from './hooks/useCart';
 import { useStoreStatus } from './hooks/useStoreStatus';
 import { useIdlePreload } from './hooks/useIdlePreload';
 import { CustomizationOption, MenuItem, Order } from './types/burger';
+import { HERO_VIDEO_SRC } from './lib/config';
 
 // Code splitting: nada disso é necessário para o primeiro paint do cardápio.
 const loadBackground = () => import('./components/BackgroundExperience');
@@ -103,7 +104,7 @@ export default function App() {
       {/* Camada decorativa: brasas + burger explodindo com o scroll (lazy) */}
       <LazyBoundary errorFallback={<StaticBackdrop />}>
         <Suspense fallback={<StaticBackdrop />}>
-          <BackgroundExperience />
+          <BackgroundExperience heroHasVideo={Boolean(HERO_VIDEO_SRC)} />
         </Suspense>
       </LazyBoundary>
 
@@ -122,11 +123,7 @@ export default function App() {
       <main className="flex-1 relative z-20">
         <HeroSection onOrderBurger={setSelectedItemForDetail} isOpenStore={isOpenStore} />
         <ExplodedExperienceSection />
-        <MenuSection
-          onSelectItem={setSelectedItemForDetail}
-          onQuickAdd={quickAdd}
-          onAskAIAboutItem={handleAskAIAboutItem}
-        />
+        <MenuSection onSelectItem={setSelectedItemForDetail} />
       </main>
 
       <Footer />

@@ -44,7 +44,26 @@ export const env = Object.freeze({
     .split(/[\s,]+/)
     .map((s) => s.trim())
     .filter(Boolean),
+  /** Origens externas autorizadas a chamar a API (ex.: o site no GitHub Pages). */
+  corsOrigins: (process.env.CORS_ORIGINS ?? '')
+    .split(/[\s,]+/)
+    .map((s) => s.trim().replace(/\/+$/, ''))
+    .filter(Boolean),
+  twilio: {
+    accountSid: process.env.TWILIO_ACCOUNT_SID?.trim() ?? '',
+    authToken: process.env.TWILIO_AUTH_TOKEN?.trim() ?? '',
+    /** Remetente WhatsApp habilitado na Twilio, E.164 (ex.: +14155238886 no sandbox). */
+    whatsappFrom: process.env.TWILIO_WHATSAPP_FROM?.trim() ?? '',
+    /** WhatsApp da loja que recebe os pedidos, E.164. */
+    storeWhatsappTo: process.env.STORE_WHATSAPP_TO?.trim() ?? '',
+    /** Envia também uma confirmação ao cliente (exige opt-in/template no WhatsApp Business). */
+    notifyCustomer: parseBoolean(process.env.TWILIO_NOTIFY_CUSTOMER, false),
+    timeoutMs: parseNumber(process.env.TWILIO_TIMEOUT_MS, 10_000),
+    /** Sobrescrito apenas em testes automatizados. */
+    apiBaseUrl: process.env.TWILIO_API_BASE_URL?.trim() || 'https://api.twilio.com',
+  },
   rateLimit: {
+    ordersPer10Minutes: parseNumber(process.env.RATE_LIMIT_ORDERS_PER_10_MINUTES, 5),
     apiPerMinute: parseNumber(process.env.RATE_LIMIT_API_PER_MINUTE, 120),
     chatPerMinute: parseNumber(process.env.RATE_LIMIT_CHAT_PER_MINUTE, 20),
     imagePer10Minutes: parseNumber(process.env.RATE_LIMIT_IMAGE_PER_10_MINUTES, 5),

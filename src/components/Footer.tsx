@@ -79,13 +79,13 @@ export const Footer: React.FC = () => {
               <li><a href="#" className="hover:text-amber-400 transition-colors">Termos e Condições de Uso</a></li>
               <li><a href="#" className="hover:text-amber-400 transition-colors">Código de Conduta</a></li>
               <li><a href="#" className="hover:text-amber-400 transition-colors">Privacidade e Dicas de Segurança</a></li>
-              <li><span className="text-zinc-500">CNPJ 14.380.200/0001-21</span></li>
+              <li><span className="text-zinc-400">CNPJ 14.380.200/0001-21</span></li>
             </ul>
           </div>
         </div>
 
         {/* Bottom copyright */}
-        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-zinc-500 text-[11px]">
+        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-zinc-400 text-[11px]">
           <div>
             © 2026 São Cristóvão Burger • Palhoça - SC. Todos os direitos reservados.
           </div>

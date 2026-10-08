@@ -19,7 +19,8 @@ npm run dev            # http://localhost:3000 (Express + Vite com HMR)
 | Script | O que faz |
 | --- | --- |
 | `npm run dev` | Servidor Express + Vite em modo middleware |
-| `npm run lint` | Checagem de tipos (`tsc --noEmit`) do frontend, backend e código compartilhado |
+| `npm run lint` | Checagem de tipos (`tsc --noEmit`) do frontend, backend, código compartilhado e testes |
+| `npm test` | Testes automatizados (`node:test`): telefone, horário, pedidos e API com Twilio simulada |
 | `npm run build` | Build de produção do frontend em `dist/` |
 | `NODE_ENV=production npm start` | Serve `dist/` + API com CSP e cache de produção |
 
@@ -79,14 +80,50 @@ Todas as respostas seguem o envelope `{ success: true, data, meta? }` ou
 | Gemini: chave inválida / bad request | 502 | `AI_PROVIDER_AUTH` / `AI_PROVIDER_BAD_REQUEST` |
 | Gemini indisponível / sem cota / modelo indisponível | 503 | `AI_PROVIDER_UNAVAILABLE` / `AI_PROVIDER_RATE_LIMITED` / `AI_MODEL_UNAVAILABLE` |
 | Gemini timeout | 504 | `AI_PROVIDER_TIMEOUT` |
+| Pedido abaixo do mínimo | 400 | `ORDER_BELOW_MINIMUM` |
+| Origem não autorizada (CORS) | 403 | `FORBIDDEN_ORIGIN` |
+| Twilio não configurada / número da loja recusado | 503 | `WHATSAPP_NOT_CONFIGURED` |
+| Falha / limite da Twilio | 502 / 503 | `WHATSAPP_SEND_FAILED` / `WHATSAPP_RATE_LIMITED` |
+| Timeout da Twilio | 504 | `WHATSAPP_TIMEOUT` |
 | Erro interno | 500 | `INTERNAL_ERROR` |
 
 Erros do Gemini viram resposta de contingência (`meta.fallback = true`) enquanto `AI_FALLBACK_ENABLED=true`;
 o erro real sempre é logado com `requestId`. Erros de validação e bugs nunca são mascarados.
 
+### Cardápio
+
+- Categorias: Destaques, Hambúrgueres, Combos, Acompanhamentos, Bebidas e Sobremesas (categorias sem
+  itens ficam ocultas). A categoria original de cada item foi mantida em `subcategory`.
+- Abas fixas abaixo da navbar com rolagem suave e "scrollspy" (IntersectionObserver + `scrollend`).
+- Busca por nome/ingrediente com debounce e sem acentos ("guarana" encontra "Guaraná").
+- Cards simples (foto, título, descrição, preço); personalização e adicionais abrem no modal.
+
+### Pedidos pelo WhatsApp (Twilio)
+
+`POST /api/orders` valida o pedido, **recalcula todos os preços a partir do cardápio** (`shared/order.ts`),
+normaliza o celular para E.164 (`+55DDD9XXXXXXXX`, `shared/phone.ts`) e envia o resumo ao WhatsApp da
+loja pela API REST da Twilio (sem SDK, com timeout). Credenciais ficam só no servidor.
+
+1. Crie uma conta na Twilio e ative o **WhatsApp Sandbox** (ou um remetente aprovado).
+2. Do WhatsApp da loja, envie a mensagem de adesão (`join <código>`) para o número do sandbox.
+3. Configure no servidor: `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WHATSAPP_FROM`,
+   `STORE_WHATSAPP_TO` (veja `.env.example`).
+4. Se o site estiver em outro domínio (GitHub Pages), defina `CORS_ORIGINS` no servidor e
+   `VITE_API_BASE_URL` no build do frontend.
+
+Sem servidor/Twilio (ex.: versão no GitHub Pages), o carrinho envia o mesmo resumo pelo app do
+WhatsApp (link `wa.me`), usando `VITE_STORE_WHATSAPP_NUMBER`.
+
+### Vídeo do Hero
+
+Coloque o MP4 (720p, 16:9, sem áudio) em `public/media/hero-burger.mp4` e defina
+`VITE_HERO_VIDEO_SRC=media/hero-burger.mp4`. O vídeo usa `autoplay muted loop playsinline`, pausa fora da
+tela e respeita `prefers-reduced-motion`. Com vídeo ativo, o burger animado aparece só após o Hero.
+
 ### Segurança
 
 - `GEMINI_API_KEY` só existe no servidor.
 - Helmet com CSP restritiva em produção; rate limit por IP (geração de imagem é a mais restrita).
-- Limites de corpo por rota (chat 160 KB, imagem 8 KB — antes 15 MB globais).
+- Limites de corpo por rota (chat 160 KB, pedidos 32 KB, imagem 8 KB — antes 15 MB globais).
+- CORS por lista de permissões (`CORS_ORIGINS`); origens desconhecidas recebem 403 no preflight.
 - Carrinho no `localStorage` guarda apenas ids e quantidades; preços são sempre recalculados a partir do cardápio.

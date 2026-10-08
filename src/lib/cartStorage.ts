@@ -1,14 +1,6 @@
-import { CartItem, CustomizationOption, MenuItem } from '../types/burger';
+import type { CartItem, CustomizationOption, MenuItem } from '../types/burger';
 import { MENU_ITEMS } from '../data/menuData';
-import {
-  COMBO_DRINKS,
-  EXTRAS,
-  MAX_ITEM_QUANTITY,
-  MAX_OBSERVATION_LENGTH,
-  REMOVALS,
-  getUnitPrice,
-  roundMoney,
-} from './pricing';
+import { MAX_ITEM_QUANTITY, getUnitPrice, roundMoney, sanitizeCustomization } from './pricing';
 
 /**
  * Persistência do carrinho no localStorage.
@@ -51,27 +43,6 @@ function getStorage(): Storage | null {
     // Acesso ao storage pode lançar exceção (modo privado, políticas de cookies).
     return null;
   }
-}
-
-function sanitizeCustomization(raw: unknown): CustomizationOption | undefined {
-  if (!isRecord(raw)) return undefined;
-  const result: CustomizationOption = {};
-
-  for (const { key } of EXTRAS) if (raw[key] === true) result[key] = true;
-  for (const { key } of REMOVALS) if (raw[key] === true) result[key] = true;
-
-  if (typeof raw.observacao === 'string') {
-    const obs = raw.observacao.trim().slice(0, MAX_OBSERVATION_LENGTH);
-    if (obs) result.observacao = obs;
-  }
-  if (
-    typeof raw.bebidaEscolhida === 'string' &&
-    (COMBO_DRINKS as readonly string[]).includes(raw.bebidaEscolhida)
-  ) {
-    result.bebidaEscolhida = raw.bebidaEscolhida;
-  }
-
-  return Object.keys(result).length > 0 ? result : undefined;
 }
 
 function hydrateLine(raw: unknown): CartItem | null {

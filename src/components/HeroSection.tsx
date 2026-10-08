@@ -2,24 +2,19 @@ import React, { memo } from 'react';
 import { Sparkles, Flame, Layers } from 'lucide-react';
 import { MenuItem } from '../types/burger';
 import { SaoCristovaoLogo } from './SaoCristovaoLogo';
+import { HeroVideo } from './HeroVideo';
 import { STORE_CLOSES_AT, STORE_OPENS_AT } from '../../shared/storeHours';
+import { MENU_ITEMS } from '../data/menuData';
+import { formatBRL } from '../lib/format';
+import { HERO_VIDEO_POSTER, HERO_VIDEO_SRC } from '../lib/config';
 
 interface HeroSectionProps {
   onOrderBurger: (item: MenuItem) => void;
   isOpenStore: boolean;
 }
 
-const SIGNATURE_BURGER: MenuItem = {
-  id: 'destaque-1',
-  name: 'Burger 120g Bacon & Cheddar Cristovão Bacon',
-  category: 'Destaques',
-  description:
-    'Pão brioche selado na manteiga, hambúrguer 120g com crosta smash, bacon crocante, cheddar derretido, alface americana fresca, tomate e maionese da casa.',
-  price: 48.9,
-  originalPrice: 59.9,
-  image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=800&q=80',
-  serves: 'Serve 1 pessoa',
-};
+// Usa o item real do cardápio (antes era uma cópia fixa com descrição divergente).
+const SIGNATURE_BURGER = MENU_ITEMS.find((item) => item.id === 'destaque-1') ?? MENU_ITEMS[0];
 
 export const HeroSection: React.FC<HeroSectionProps> = memo(function HeroSection({ onOrderBurger, isOpenStore }) {
   return (
@@ -94,7 +89,7 @@ export const HeroSection: React.FC<HeroSectionProps> = memo(function HeroSection
               className="px-6 sm:px-8 py-4 rounded-full font-black text-sm uppercase tracking-wider bg-amber-400 hover:bg-amber-300 text-black transition-[background-color,transform] duration-300 shadow-[0_0_25px_rgba(251,191,36,0.4)] hover:scale-105 active:scale-95 flex items-center gap-2.5 cursor-pointer"
             >
               <Sparkles className="w-4 h-4 text-black" aria-hidden="true" />
-              <span>Pedir Cristóvão Bacon • R$ 48,90</span>
+              <span>Pedir Cristóvão Bacon • {formatBRL(SIGNATURE_BURGER.price)}</span>
             </button>
 
             <a
@@ -107,18 +102,29 @@ export const HeroSection: React.FC<HeroSectionProps> = memo(function HeroSection
           </div>
         </div>
 
-        {/* Coluna direita: espaço aberto onde o burger em camadas aparece (camada fixa ao fundo). */}
+        {/* Coluna direita: vídeo do burger (quando configurado) ou espaço aberto para a camada animada. */}
         <div className="lg:col-span-6 flex flex-col items-center justify-end lg:justify-center relative min-h-[300px] lg:min-h-[420px] pointer-events-none">
-          <div className="p-4 rounded-2xl bg-black/60 border border-white/10 shadow-2xl max-w-xs text-center space-y-1.5 pointer-events-auto lg:translate-y-48">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-[10px] font-bold uppercase tracking-wider">
-              <Sparkles className="w-3 h-3 text-amber-400" aria-hidden="true" />
-              <span>Burger em Camadas Interativas</span>
+          {HERO_VIDEO_SRC ? (
+            <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.8)] bg-black">
+              <HeroVideo
+                src={`${import.meta.env.BASE_URL}${HERO_VIDEO_SRC}`}
+                poster={HERO_VIDEO_POSTER ? `${import.meta.env.BASE_URL}${HERO_VIDEO_POSTER}` : undefined}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0e]/70 via-transparent to-transparent" />
             </div>
-            <p className="text-[11px] text-zinc-300 leading-snug">
-              <span className="hidden pointer-fine:inline">Mova o cursor para inclinar o burger em 3D. </span>
-              Role a página para destrinchar as camadas.
-            </p>
-          </div>
+          ) : (
+            <div className="p-4 rounded-2xl bg-black/60 border border-white/10 shadow-2xl max-w-xs text-center space-y-1.5 pointer-events-auto lg:translate-y-48">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-[10px] font-bold uppercase tracking-wider">
+                <Sparkles className="w-3 h-3 text-amber-400" aria-hidden="true" />
+                <span>Burger em Camadas Interativas</span>
+              </div>
+              <p className="text-[11px] text-zinc-300 leading-snug">
+                <span className="hidden pointer-fine:inline">Mova o cursor para inclinar o burger em 3D. </span>
+                Role a página para destrinchar as camadas.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -174,7 +174,7 @@ const GeminiImageStudioModal: React.FC<GeminiImageStudioModalProps> = ({ onClose
               onChange={(e) => setPrompt(e.target.value)}
               rows={3}
               placeholder="Descreva o hambúrguer, ingredientes, ponto da carne ou iluminação..."
-              className="w-full px-3.5 py-2.5 bg-zinc-900 border border-white/10 rounded-xl text-base sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400 leading-relaxed resize-none"
+              className="w-full px-3.5 py-2.5 bg-zinc-900 border border-white/10 rounded-xl text-base sm:text-sm text-white placeholder-zinc-400 focus:outline-none focus:border-amber-400 leading-relaxed resize-none"
             />
           </div>
 

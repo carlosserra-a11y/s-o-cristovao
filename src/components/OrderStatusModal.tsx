@@ -4,6 +4,8 @@ import { Order } from '../types/burger';
 import { SaoCristovaoLogo } from './SaoCristovaoLogo';
 import { Dialog, DialogCloseButton } from './ui/Dialog';
 import { formatBRL } from '../lib/format';
+import { buildWhatsAppLink } from '../lib/config';
+import { formatBrazilianMobile } from '../../shared/phone';
 
 interface OrderStatusModalProps {
   order: Order;
@@ -36,6 +38,8 @@ const PAYMENT_LABELS: Record<Order['paymentMethod'], string> = {
   card: 'Cartão',
   cash: 'Dinheiro',
 };
+
+const CONTACT_MESSAGE = 'Olá, gostaria de saber sobre meu pedido no São Cristóvão Burger';
 
 const OrderStatusModal: React.FC<OrderStatusModalProps> = ({ order, onClose }) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -74,6 +78,18 @@ const OrderStatusModal: React.FC<OrderStatusModalProps> = ({ order, onClose }) =
         <DialogCloseButton onClose={onClose} label="Fechar acompanhamento do pedido" />
       </div>
 
+      {order.channel === 'whatsapp-link' ? (
+        <p className="p-3 rounded-xl bg-green-500/10 border border-green-400/30 text-xs text-green-100">
+          Abrimos o WhatsApp com o resumo do seu pedido. <strong>Toque em enviar na conversa</strong> para a loja
+          receber e confirmar.
+        </p>
+      ) : (
+        <p className="p-3 rounded-xl bg-green-500/10 border border-green-400/30 text-xs text-green-100">
+          Pedido enviado para o WhatsApp da loja
+          {order.customerPhone ? ` — vamos falar com você no ${formatBrazilianMobile(order.customerPhone)}` : ''}.
+        </p>
+      )}
+
       {/* Etapas */}
       <div className="p-4 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-6">
         <ol className="relative flex items-start justify-between" aria-label="Etapas do pedido">
@@ -100,14 +116,14 @@ const OrderStatusModal: React.FC<OrderStatusModalProps> = ({ order, onClose }) =
                       ? 'bg-amber-400 text-black shadow-[0_0_15px_rgba(251,191,36,0.5)] scale-110'
                       : isDone
                         ? 'bg-amber-400 text-black'
-                        : 'bg-zinc-800 text-zinc-500 border border-white/10'
+                        : 'bg-zinc-800 text-zinc-400 border border-white/10'
                   }`}
                 >
                   <Icon className="w-4 h-4" aria-hidden="true" />
                 </div>
                 <span
                   className={`text-[10px] sm:text-xs font-bold mt-2 text-center max-w-[70px] ${
-                    isDone ? 'text-amber-300' : 'text-zinc-500'
+                    isDone ? 'text-amber-300' : 'text-zinc-400'
                   }`}
                 >
                   {st.title}
@@ -134,7 +150,10 @@ const OrderStatusModal: React.FC<OrderStatusModalProps> = ({ order, onClose }) =
         </div>
         <div className="flex justify-between gap-4 text-zinc-400">
           <dt>Pagamento:</dt>
-          <dd className="text-white font-medium">{PAYMENT_LABELS[order.paymentMethod]}</dd>
+          <dd className="text-white font-medium">
+            {PAYMENT_LABELS[order.paymentMethod]}
+            {order.paymentMethod === 'cash' && order.changeFor ? ` (troco para ${order.changeFor})` : ''}
+          </dd>
         </div>
         <div className="flex justify-between gap-4 text-zinc-400">
           <dt>Total Pago:</dt>
@@ -151,7 +170,7 @@ const OrderStatusModal: React.FC<OrderStatusModalProps> = ({ order, onClose }) =
           Continuar no Cardápio
         </button>
         <a
-          href="https://wa.me/5548999999999?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20sobre%20meu%20pedido%20no%20S%C3%A3o%20Crist%C3%B3v%C3%A3o%20Burger"
+          href={buildWhatsAppLink(`${CONTACT_MESSAGE} (${order.id}).`)}
           target="_blank"
           rel="noopener noreferrer"
           className="px-4 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-xs uppercase flex items-center justify-center gap-2 transition-colors"
