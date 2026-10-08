@@ -45,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = memo(function Navbar({
                 <span className="font-extrabold text-base sm:text-xl tracking-tight uppercase text-white font-display truncate">
                   São Cristóvão
                 </span>
-                <span className="hidden md:inline px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-400 text-black uppercase">
+                <span className="hidden lg:inline px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-400 text-black uppercase">
                   Hamburgueria
                 </span>
               </div>
