@@ -17,7 +17,7 @@ export type ClientErrorCode = ApiErrorCode | 'NETWORK_ERROR' | 'ABORTED' | 'TIME
  * No GitHub Pages, defina VITE_API_BASE_URL com a URL do servidor Node
  * (e libere a origem do site em CORS_ORIGINS no servidor).
  */
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/+$/, '');
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
 /** Build estático sem backend configurado: a API nem é chamada (evita 404 no console). */
 const IS_STATIC_SITE = import.meta.env.VITE_STATIC_SITE === 'true' && API_BASE_URL === '';

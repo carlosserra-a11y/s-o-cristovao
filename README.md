@@ -114,6 +114,10 @@ loja pela API REST da Twilio (sem SDK, com timeout). Credenciais ficam só no se
 Sem servidor/Twilio (ex.: versão no GitHub Pages), o carrinho envia o mesmo resumo pelo app do
 WhatsApp (link `wa.me`), usando `VITE_STORE_WHATSAPP_NUMBER`.
 
+**GitHub Pages:** em *Settings → Secrets and variables → Actions → Variables*, crie
+`STORE_WHATSAPP_NUMBER` (ex.: `5548999999999`, só dígitos) e, opcionalmente, `API_BASE_URL`,
+`HERO_VIDEO_SRC` e `HERO_VIDEO_POSTER`. O próximo deploy já usa os valores.
+
 ### Vídeo do Hero
 
 Coloque o MP4 (720p, 16:9, sem áudio) em `public/media/hero-burger.mp4` e defina

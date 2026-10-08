@@ -39,6 +39,12 @@ jobs:
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
           VITE_STATIC_SITE: 'true'
+          # Configuráveis em Settings → Secrets and variables → Actions → Variables
+          # (valores públicos: vão para o site; nunca coloque segredos aqui).
+          VITE_STORE_WHATSAPP_NUMBER: ${{ vars.STORE_WHATSAPP_NUMBER }}
+          VITE_API_BASE_URL: ${{ vars.API_BASE_URL }}
+          VITE_HERO_VIDEO_SRC: ${{ vars.HERO_VIDEO_SRC }}
+          VITE_HERO_VIDEO_POSTER: ${{ vars.HERO_VIDEO_POSTER }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
